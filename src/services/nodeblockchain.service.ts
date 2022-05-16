@@ -21,6 +21,7 @@ export const registerNode = async (uri: Readonly<string>) => {
   })
   const newNode = new NodeBlockserver({ _id: new Types.ObjectId(), uri: parseUri })
   await newNode.save()
+  return newNode
 }
 
 export const getBlockchains = async (userid: Readonly<string>) => {

@@ -12,9 +12,11 @@
     "axios": "^0.27.2",
     "fastify": "^3.29.0",
     "fastify-multer": "^2.0.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.3"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.0.1",

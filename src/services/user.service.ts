@@ -15,6 +15,7 @@ export const register = async (user: IUser) => {
   nodes.forEach(async (node: INodeBlockserver) => {
     await axios.post(`${node.uri}/blockchain/registration`, { userid: newUser._id })
   })
+  return newUser
 }
 
 export const login = async (email: Readonly<string>, password: Readonly<string>): Promise<IUser | null> => {
