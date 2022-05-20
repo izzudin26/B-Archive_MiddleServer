@@ -1,6 +1,6 @@
 import { IUser, User } from '../model/user.model'
 import axios from 'axios'
-import { Types } from 'mongoose'
+import { Types, ObjectId } from 'mongoose'
 import crypto from 'crypto'
 import * as nodeService from './nodeblockchain.service'
 import { INodeBlockserver } from '../model/nodeblockchain.model'
@@ -8,6 +8,7 @@ import { INodeBlockserver } from '../model/nodeblockchain.model'
 export const getUsers = async () => await User.find().exec()
 
 export const register = async (user: IUser) => {
+  user.password = hashPassword(user.password)
   const newUser = new User(user)
   newUser._id = new Types.ObjectId()
   await newUser.save()
@@ -24,6 +25,7 @@ export const login = async (email: Readonly<string>, password: Readonly<string>)
     throw new Error('Email Tidak ditemukan')
   }
   const hashingPassword = hashPassword(password)
+  console.log(hashingPassword)
   if (user.password !== hashingPassword) {
     throw new Error('Password salah')
   }
@@ -34,3 +36,5 @@ const hashPassword = (password: Readonly<string>): string => {
   const hash = crypto.createHash('sha256')
   return hash.update(Uint8Array.from(Buffer.from(password))).digest('hex')
 }
+
+export const verifyUser = async (userid: string): Promise<IUser | null> => await User.findOne({ _id: new Types.ObjectId(userid) })
