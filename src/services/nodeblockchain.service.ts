@@ -1,7 +1,8 @@
 import { INodeBlockserver, NodeBlockserver } from '../model/nodeblockchain.model'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { Types } from 'mongoose'
 import * as userService from './user.service'
+import { ITransaction } from '../model/transaction'
 
 export const getNodes = async (): Promise<INodeBlockserver[]> => {
   return await NodeBlockserver.find()
@@ -38,4 +39,23 @@ export const getBlockchains = async (userid: Readonly<string>) => {
     }
   })
   return blockdata
+}
+
+export const broadcastData = async (user: Readonly<string>, data: Readonly<ITransaction>) => {
+  const nodes: INodeBlockserver[] = await getNodes()
+  nodes.forEach(async (node: INodeBlockserver) => {
+    await axios.post(`${node.uri}/blockchain/${user}`, data)
+  })
+}
+
+export const getBlockdata = async (user: Readonly<string>, hashblock: Readonly<string>) => {
+  const nodes: INodeBlockserver[] = await getNodes()
+  let data
+  nodes.forEach(async (node: INodeBlockserver) => {
+    const req: AxiosResponse = await axios.post(`${node.uri}/blockchain/${user}/${hashblock}`)
+    if (req.status === 200) {
+      data = req.data.data
+    }
+  })
+  return data
 }
