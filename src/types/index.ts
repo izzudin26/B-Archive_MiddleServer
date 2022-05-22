@@ -18,6 +18,12 @@ export interface ILogin {
   password: string
 }
 
+export interface IPayloadUser {
+  fullname: string
+  gender: string
+  _id: string
+}
+
 export const httpResponse = (status: Readonly<number>, message: Readonly<string>, data?: Readonly<any>): IResponse => {
   return {
     status,
