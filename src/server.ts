@@ -16,7 +16,7 @@ const diskStorage = multer.diskStorage({
 export const upload = multer({ storage: diskStorage })
 
 server.register(multer.contentParser)
-server.register(import('fastify-static'), {
+server.register(import('@fastify/static'), {
   root: path.join(__dirname + '../../storage'),
   prefix: '/image/'
 })
