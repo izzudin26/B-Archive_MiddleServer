@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Types } from 'mongoose'
 import * as userService from './user.service'
 import { ITransaction } from '../model/transaction'
+import { IResponseBlockchain } from '../types'
 
 export const getNodes = async (): Promise<INodeBlockserver[]> => {
   return await NodeBlockserver.find().exec()
@@ -27,18 +28,15 @@ export const registerNode = async (uri: Readonly<string>) => {
 
 export const getBlockchains = async (userid: Readonly<string>) => {
   const nodes: INodeBlockserver[] = await getNodes()
-  let blockdata: [] = []
-  nodes.forEach(async (node: INodeBlockserver) => {
+  const data = Promise.all(nodes.map(async (node: INodeBlockserver) => {
     const request = await axios.get(`${node.uri}/blockchain/${userid}`)
     if (request.data.message === 'Broken Chain Data') {
       await axios.get(`${node.uri}/blockchain/${userid}/synchronize`)
+      return null
     }
-    if (request.status === 200) {
-      blockdata = blockdata.length < request.data.data.transactionsBlock.length && request.data.data.transactionsBlock
-      blockdata.length > request.data.data.transactionsBlock && await axios.get(`${node.uri}/blockchain/${userid}/synchronize`)
-    }
-  })
-  return blockdata
+    return request.data.data
+  }))
+  return await data as IResponseBlockchain[]
 }
 
 export const broadcastData = async (user: Readonly<string>, data: Readonly<ITransaction>) => {
