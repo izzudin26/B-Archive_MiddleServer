@@ -5,7 +5,7 @@ import * as userService from './user.service'
 import { ITransaction } from '../model/transaction'
 
 export const getNodes = async (): Promise<INodeBlockserver[]> => {
-  return await NodeBlockserver.find()
+  return await NodeBlockserver.find().exec()
 }
 
 export const registerNode = async (uri: Readonly<string>) => {
@@ -44,7 +44,7 @@ export const getBlockchains = async (userid: Readonly<string>) => {
 export const broadcastData = async (user: Readonly<string>, data: Readonly<ITransaction>) => {
   const nodes: INodeBlockserver[] = await getNodes()
   nodes.forEach(async (node: INodeBlockserver) => {
-    await axios.post(`${node.uri}/blockchain/${user}`, data)
+    await axios.post(`${node.uri}/blockchain/${user}`, { payload: data })
   })
 }
 
