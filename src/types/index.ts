@@ -1,5 +1,6 @@
 import { IUser } from '../model/user.model'
 import { FastifyRequest } from 'fastify'
+import { ITransaction } from '../model/transaction'
 
 interface IResponse {
     status: number;
@@ -30,4 +31,19 @@ export const httpResponse = (status: Readonly<number>, message: Readonly<string>
     message,
     data
   }
+}
+
+export interface ITransactionBlock {
+  metadata: ITransaction;
+  timestamp: number
+  iteration: number
+  hash ?: string
+  prevHash?: string
+  _id ?: string
+}
+
+export interface IResponseBlockchain {
+  _id: string
+  userid: string
+  transactionsBlock: ITransactionBlock[]
 }
