@@ -17,4 +17,11 @@ export default async (fastify: FastifyInstance, opts: any) => {
     preHandler: jwtAuth,
     handler: blockchainController.insertData
   })
+
+  fastify.route({
+    method: 'GET',
+    url: '/',
+    preHandler: jwtAuth,
+    handler: blockchainController.getAlldata
+  })
 }
