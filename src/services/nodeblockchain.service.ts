@@ -41,19 +41,19 @@ export const getBlockchains = async (userid: Readonly<string>) => {
 
 export const broadcastData = async (user: Readonly<string>, data: Readonly<ITransaction>) => {
   const nodes: INodeBlockserver[] = await getNodes()
+  const timetamp: number = Date.now()
   nodes.forEach(async (node: INodeBlockserver) => {
-    await axios.post(`${node.uri}/blockchain/${user}`, { payload: data })
+    await axios.post(`${node.uri}/blockchain/${user}`, { payload: data, timetamp })
   })
 }
 
 export const getBlockdata = async (user: Readonly<string>, hashblock: Readonly<string>) => {
   const nodes: INodeBlockserver[] = await getNodes()
-  let data
-  nodes.forEach(async (node: INodeBlockserver) => {
-    const req: AxiosResponse = await axios.post(`${node.uri}/blockchain/${user}/${hashblock}`)
+  return await Promise.all(nodes.map(async (node: INodeBlockserver) => {
+    const req: AxiosResponse = await axios.get(`${node.uri}/blockchain/${user}/${hashblock}`)
     if (req.status === 200) {
-      data = req.data.data
+      return req.data.data
     }
-  })
-  return data
+    throw req.data.message
+  }))
 }

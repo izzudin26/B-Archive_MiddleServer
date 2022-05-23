@@ -37,3 +37,15 @@ export const getAlldata = async (req: FastifyRequest, res: any) => {
     if (error instanceof Error) throw httpResponse(500, error.message)
   }
 }
+
+export const getSpecificData = async (req: FastifyRequest<{Params: {hashblock: string}}>, res: any) => {
+  const { hashblock } = req.params
+  const token: string = req.headers.authorization as string
+  const payloadUser = jwt.verify(token, 'barchive') as IPayloadUser
+  try {
+    const data = await getBlockdata(payloadUser._id, hashblock)
+    return httpResponse(200, 'Successfull get blockdata', data[0])
+  } catch (error) {
+    if (error instanceof Error) throw httpResponse(500, error.message)
+  }
+}

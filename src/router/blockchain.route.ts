@@ -24,4 +24,11 @@ export default async (fastify: FastifyInstance, opts: any) => {
     preHandler: jwtAuth,
     handler: blockchainController.getAlldata
   })
+
+  fastify.route({
+    method: 'GET',
+    url: '/block/:hashblock',
+    preHandler: jwtAuth,
+    handler: blockchainController.getSpecificData
+  })
 }
