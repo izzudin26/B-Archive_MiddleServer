@@ -82,14 +82,14 @@ export const openQRToken = async (req: FastifyRequest<{Params: {hashblock: strin
   const { hashblock } = req.params
   try {
     const data = await redis.get(hashblock)
-    if (!data) {
-      throw httpResponse(404, 'Wrong Token')
+    if (data) {
+      const dataurl = await QRcode.toDataURL(data)
+      res.sent = true
+      res.raw.writeHead(200, { 'Content-Type': 'text/html' })
+      res.raw.end(toHtml(dataurl))
+      return Promise.resolve('success')
     }
-    const dataurl = await QRcode.toDataURL(data)
-    res.sent = true
-    res.raw.writeHead(200, { 'Content-Type': 'text/html' })
-    res.raw.end(toHtml(dataurl))
-    return Promise.resolve('success')
+    return httpResponse(404, 'Wrong hashblock')
   } catch (error) {
     if (error instanceof Error) throw httpResponse(500, error.message)
   }
