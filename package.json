@@ -14,10 +14,13 @@
     "fastify": "^3.29.0",
     "fastify-multer": "^2.0.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.3"
+    "mongoose": "^6.3.3",
+    "qrcode": "^1.5.0",
+    "redis": "^4.1.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.8",
+    "@types/qrcode": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.0.1",
