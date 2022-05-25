@@ -57,3 +57,19 @@ export const getBlockdata = async (user: Readonly<string>, hashblock: Readonly<s
     throw req.data.message
   }))
 }
+
+export const toHtml = (qrcode: string) => (
+  `<!doctype html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex w-full h-screen justify-center items-center">
+      <img src="${qrcode}" />
+    </div>
+  </body>
+  </html>`
+)

@@ -31,4 +31,17 @@ export default async (fastify: FastifyInstance, opts: any) => {
     preHandler: jwtAuth,
     handler: blockchainController.getSpecificData
   })
+
+  fastify.route({
+    method: 'GET',
+    url: '/block/generate/:hashblock',
+    preHandler: jwtAuth,
+    handler: blockchainController.createQRToken
+  })
+
+  fastify.route({
+    method: 'GET',
+    url: '/qr/:hashblock',
+    handler: blockchainController.openQRToken
+  })
 }

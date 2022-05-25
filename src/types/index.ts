@@ -47,3 +47,8 @@ export interface IResponseBlockchain {
   userid: string
   transactionsBlock: ITransactionBlock[]
 }
+
+export interface IPayloadQR {
+  metdata: string
+  hash: string
+}

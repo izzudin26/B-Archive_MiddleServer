@@ -1,8 +1,11 @@
 import Fastify, { FastifyInstance } from 'fastify'
 import multer from 'fastify-multer'
 import path from 'path'
+import { createClient } from 'redis'
 
 export const server: FastifyInstance = Fastify({ logger: true })
+
+export const redis = createClient()
 
 const diskStorage = multer.diskStorage({
   destination: (req, file, cb) => {
