@@ -1,0 +1,13 @@
+version: '3.0.0'
+services:
+  mongodb:
+    container_name: 'mongodb'
+    image: 'mongo:4.4.13'
+    ports:
+      - '27017:27017'
+  
+  redis:
+    container_name: 'redisdb'
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
