@@ -1,6 +1,6 @@
 export interface ITransaction {
     receiverName: string
-    receiverNumber: number
+    receiverNumber: string
     transactionDate: Date
     referenceNumber: string
     amount: number
